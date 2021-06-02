@@ -12,21 +12,18 @@ const forecast = (latitude, longitude, callback) => {
     (
       error,
       response,
-      { error: bodyError, current: { temperature, feelslike } }
+      {
+        error: bodyError,
+        current: { temperature, feelslike, humidity, wind_speed },
+      }
     ) => {
       if (error) {
         callback('Unable to connect to weather service!', undefined);
       } else if (bodyError) {
         callback('Unable to find location', undefined);
       } else {
-        callback(
-          undefined,
-          "It's currently " +
-            temperature +
-            ' celsius. It feels like ' +
-            feelslike +
-            ' celsius.'
-        );
+        const forecast = `It's currently ${temperature} celsius and it feels like ${feelslike}. The humidity is ${humidity}% and the wind speed is ${wind_speed}km/h.`;
+        callback(undefined, forecast);
       }
     }
   );
